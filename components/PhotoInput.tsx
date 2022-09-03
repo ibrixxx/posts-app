@@ -1,10 +1,8 @@
 import {Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import {useState} from "react";
 
-export default function PhotoInput() {
-    const [image, setImage] = useState('');
+export default function PhotoInput({image, setImage}) {
 
     const openPicker = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({

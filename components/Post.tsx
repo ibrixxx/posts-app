@@ -1,33 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import moment from "moment";
 
-export default function Post() {
+export default function Post({data}) {
     return (
         <View style={styles.container}>
             <View style={styles.head}>
                 <Image
-                    source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png'}}
+                    source={{uri: data.photo}}
                     style={{width: 128, height: 128, borderRadius: 14}}
                 />
                 <View style={styles.info}>
-                    <Text style={{fontWeight: 'bold', fontSize: 20, marginTop: 7}}>Title</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 20, marginTop: 7}}>
+                        {data.title}
+                    </Text>
                     <View style={{flexDirection: 'row', marginTop: 7}}>
-                        <Text>Created at: </Text>
-                        <Text>04.05.3123 09pm</Text>
+                        <Text style={{fontSize: 12, color: 'gray'}}>Created at: </Text>
+                        <Text style={{fontSize: 12}}>{moment(data.createdAt).format('MM/DD/YY hh:mm a')}</Text>
                     </View>
-                    <View style={styles.button}>
-                        <Text style={{color: 'red', fontSize: 16}}>Draft</Text>
-                    </View>
+                    {data.status?
+                        <Text style={[styles.button, {color: '#D91616', fontSize: 16, backgroundColor: '#D916161A', opacity: 0.9}]}>Draft</Text>
+                        :
+                        <Text style={[styles.button, {color: '#10C137', fontSize: 16, backgroundColor: '#10C1371A', opacity: 0.9}]}>Published</Text>
+                    }
                 </View>
             </View>
             <View style={styles.caption}>
                 <Text numberOfLines={2}>
-                    Laldladlaldlaasddasdoapspasadasfaofisfjsdofjdsfpsofjsofjsdoifjs
-                    fasofisjfiosdjfisdojfiodsjfdsoijfidsfdsfdsjifsdjfiodsjfods
-                    sfjiosdjfiosdjfodsjfdosjfodsjfodsfjodsfjodsfjodsjfodsjfdsfsdf
-                    fdsfijosdjfodsjfodsjfodsjfodsjfoidsjfoijfdsojsfojisjfodsjfdso
-                    dsjifosdjfiodsjfdsofjdsoifjdsfjoidsf
-                    sdjfosdjf
+                    {data.desc}
                 </Text>
             </View>
         </View>
@@ -55,15 +54,13 @@ const styles = StyleSheet.create({
     },
     button: {
         borderRadius: 14,
-        backgroundColor: 'orange',
-        justifyContent: 'center',
-        alignItems: 'center',
+        textAlign: 'center',
         paddingHorizontal: 12,
         paddingVertical: 8,
         marginTop: 6,
-        width: '40%'
     },
     info: {
-        marginLeft: 16
+        marginLeft: 16,
+        alignItems: 'flex-start'
     }
 });

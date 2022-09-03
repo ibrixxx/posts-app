@@ -3,17 +3,51 @@ import Post from "../components/Post";
 import MyButton from "../components/MyButton";
 import {useNavigation} from "@react-navigation/native";
 import { useSelector } from 'react-redux';
+import {RootState} from "@reduxjs/toolkit/dist/query/core/apiState";
+
+const data = [
+    {
+        title: '',
+        status: '',
+        desc: '',
+        photo: '',
+        createdAt: new Date().toString()
+    },
+    {
+        title: '',
+        status: '',
+        desc: '',
+        photo: '',
+        createdAt: new Date().toString()
+    },
+    {
+        title: '',
+        status: '',
+        desc: '',
+        photo: '',
+        createdAt: new Date().toString()
+    },
+    {
+        title: '',
+        status: '',
+        desc: '',
+        photo: '',
+        createdAt: new Date().toString()
+    },
+]
 
 export default function HomeScreen() {
     const navigation = useNavigation()
+    const { posts } = useSelector((state: RootState) => state.posts)
     const onPress = () => navigation.navigate('CreateNew')
 
     return (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
             <FlatList
-                data={[1,2,3,4,5,6,7]}
+                data={posts}
                 style={styles.container}
-                renderItem={() => <Post />}
+                renderItem={({item}) => <Post data={item}/>}
+                keyExtractor={(item, index) => item.title + index}
             />
             <MyButton title={'New Post'} onPress={onPress} />
         </View>

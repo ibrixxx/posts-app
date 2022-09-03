@@ -1,8 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from "@react-navigation/native";
 
 export default function MyButton({title, onPress}) {
-    const navigation = useNavigation()
 
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -20,6 +18,6 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 12,
         position: 'absolute',
-        bottom: 80
+        bottom: 33
     }
 });

@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface PostData {
     title: string,
-    status: string,
+    status: number,
     desc: string,
-    photo: string
+    photo: string,
+    createdAt: string
 }
 
 const postSlice = createSlice({
