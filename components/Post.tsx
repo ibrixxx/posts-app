@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
         height: 220,
         marginTop: 12,
         paddingHorizontal: 16,
-        paddingBottom: 18
+        paddingBottom: 18,
+        width: '100%'
     },
     head: {
         flexDirection: 'row',

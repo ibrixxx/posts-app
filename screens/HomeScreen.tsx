@@ -2,47 +2,41 @@ import {Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} 
 import Post from "../components/Post";
 import MyButton from "../components/MyButton";
 import {useNavigation} from "@react-navigation/native";
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from "@reduxjs/toolkit/dist/query/core/apiState";
-
-const data = [
-    {
-        title: '',
-        status: '',
-        desc: '',
-        photo: '',
-        createdAt: new Date().toString()
-    },
-    {
-        title: '',
-        status: '',
-        desc: '',
-        photo: '',
-        createdAt: new Date().toString()
-    },
-    {
-        title: '',
-        status: '',
-        desc: '',
-        photo: '',
-        createdAt: new Date().toString()
-    },
-    {
-        title: '',
-        status: '',
-        desc: '',
-        photo: '',
-        createdAt: new Date().toString()
-    },
-]
+import {useEffect} from "react";
+import {setInitialPost} from "../redux/postsSlice";
+import {storage} from "../App";
 
 export default function HomeScreen() {
     const navigation = useNavigation()
+    const dispatch = useDispatch();
     const { posts } = useSelector((state: RootState) => state.posts)
     const onPress = () => navigation.navigate('CreateNew')
 
+    useEffect(() => {
+        (async () => {
+            if (posts.length)
+                return
+            const storedPosts = await storage.getString('posts')
+            if(!storedPosts)
+                return
+            console.log('aaa ', storedPosts)
+            const storedPostsArr = storedPosts?.split(',{')
+            let arr = []
+            for (const e of storedPostsArr) {
+                if(e[0] !== '{')
+                    arr.push(JSON.parse('{'+e));
+                else
+                    arr.push(JSON.parse(e));
+            }
+            console.log('fff ', arr)
+            await dispatch(setInitialPost(arr));
+        })()
+    }, [])
+
     return (
-        <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+        <View style={{justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}>
             <FlatList
                 data={posts}
                 style={styles.container}
@@ -57,7 +51,8 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'whitesmoke',
-        paddingBottom: 12
+        paddingBottom: 12,
+        width: '100%'
     },
     button: {
         width: '90%',
